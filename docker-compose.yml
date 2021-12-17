@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    volumes:
+      - db-data:/var/opt/mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Nice@2022"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+  
+  book-app:
+    build: .
+    environment:
+      DatabaseServer: "mssql-server"
+      DatabasePort: "1433"
+      DatabaseUser: "SA"
+      DatabasePassword: "Nice@2022"
+      DataBaseName: "CollageManagement"
+    ports:
+      - "8090:80"
+
+volumes:
+  db-data:
+  
+  
